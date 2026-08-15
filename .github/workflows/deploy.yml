@@ -20,6 +20,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: YOUR_PROJECT_NAME
+          projectName: your-project-name  # Replace with your actual project name
           directory: .  # Deploy everything in the root
           branch: ${{ github.ref_name }}
