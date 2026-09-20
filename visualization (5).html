@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macachor Absolute Scalar Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ink:#0A0D16;
+    --panel:#111522;
+    --line:#232940;
+    --text:#E7EBF4;
+    --muted:#8C94AB;
+    --cobalt:#4C7DFF;
+    --gold:#B8973F;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    line-height:1.6;
+  }
+  a:focus-visible, button:focus-visible{outline:2px solid var(--cobalt);outline-offset:3px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* masthead */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:28px 0;
+  }
+  .masthead{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px;}
+  .masthead .org{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:.02em;}
+  .masthead .org span{color:var(--gold);font-style:italic;}
+
+  /* hero */
+  .hero{padding:72px 0 56px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
+  @media(max-width:700px){.hero{grid-template-columns:1fr;padding:56px 0 40px;}}
+  .hero h1{
+    font-family:'Instrument Serif',serif;
+    font-weight:400;
+    font-size:clamp(34px,6vw,52px);
+    line-height:1.08;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:italic;color:var(--cobalt);}
+  .hero p.lede{margin-top:20px;color:var(--muted);font-size:16px;max-width:44ch;}
+  .hero .eyebrow{display:block;margin-bottom:18px;color:var(--gold);}
+
+  /* signature: twin tori */
+  .torus-stage{display:flex;justify-content:center;}
+  .torus{width:280px;height:280px;position:relative;}
+  .ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--cobalt);opacity:.9;}
+  .ring.r2{transform:rotateY(60deg) rotateX(20deg);}
+  .ring.r3{transform:rotateY(-60deg) rotateX(-20deg);border-color:var(--gold);opacity:.8;}
+  .ring.r4{transform:rotateX(60deg);border-color:var(--muted);opacity:.4;}
+  .ring.r5{transform:rotateX(-60deg);border-color:var(--muted);opacity:.4;}
+  .core{
+    position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;
+    background:var(--text);transform:translate(-50%,-50%);
+    box-shadow:0 0 24px 6px rgba(76,125,255,.45);
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .r1{animation:spin1 14s linear infinite;}
+    .r2{animation:spin2 18s linear infinite;}
+    .r3{animation:spin3 22s linear infinite;}
+    @keyframes spin1{from{transform:rotateX(0) rotateY(0)}to{transform:rotateX(360deg) rotateY(360deg)}}
+    @keyframes spin2{from{transform:rotateY(60deg) rotateX(20deg)}to{transform:rotateY(420deg) rotateX(380deg)}}
+    @keyframes spin3{from{transform:rotateY(-60deg) rotateX(-20deg)}to{transform:rotateY(300deg) rotateX(340deg)}}
+  }
+
+  /* sections */
+  section{padding:56px 0;border-top:1px solid var(--line);}
+  section h2{
+    font-family:'Instrument Serif',serif;font-weight:400;font-size:28px;margin:10px 0 24px;
+  }
+
+  /* abstract */
+  .abstract p{color:var(--text);font-size:16px;max-width:68ch;}
+  .abstract p + p{margin-top:16px;}
+
+  /* DOI chain */
+  .chain{list-style:none;}
+  .chain li{
+    display:grid;grid-template-columns:64px 1fr;gap:20px;padding:20px 0;
+    border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .chain li:last-child{border-bottom:none;}
+  .step{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);
+    padding-top:4px;
+  }
+  .step::after{content:"";display:block;width:28px;height:1px;background:var(--gold);margin-top:8px;opacity:.5;}
+  .chain .t{font-weight:500;font-size:15px;}
+  .chain .d{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--cobalt);margin-top:4px;}
+  .chain .m{color:var(--muted);font-size:13.5px;margin-top:2px;}
+  .chain .live{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);border:1px solid rgba(184,151,63,.4);padding:2px 8px;border-radius:999px;margin-left:8px;}
+
+  /* citation */
+  .cite{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:24px;overflow-x:auto;
+  }
+  .cite pre{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;color:var(--text);}
+  .cite .k{color:var(--cobalt);}
+  .cite .v{color:var(--gold);}
+  .cite-note{margin-top:14px;color:var(--muted);font-size:13.5px;}
+  .plain-url{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);word-break:break-all;}
+
+  footer{border-top:1px solid var(--line);padding:36px 0 48px;color:var(--muted);font-size:13px;}
+  footer .quote{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;color:var(--text);margin-bottom:14px;}
+  .orcid{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cobalt);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <div class="org">Macachor <span>Absolute</span> Scalar Research</div>
+    <div class="eyebrow">San Diego · California</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <span class="eyebrow">Publication record · v1.0</span>
+      <h1>Twin Clifford Tori — <em>Scalar Resonance</em> Harmonic Coupling</h1>
+      <p class="lede">The formal home of the Macachor formulations: a closed DOI lineage from licensing proposal to canonical core to toroidal resonance geometry, attributed under one ORCID.</p>
+    </div>
+    <div class="torus-stage" aria-hidden="true">
+      <div class="torus">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="ring r4"></div>
+        <div class="ring r5"></div>
+        <div class="core"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="abstract" id="abstract">
+    <span class="eyebrow">01 · Abstract</span>
+    <h2>The coupling</h2>
+    <p>The Clifford torus — the minimal embedding of the Cartesian product of two circles in the unit 3-sphere — is shown to admit a natural harmonic-coupling structure when doubled through the Cayley-Dickson construction. Quaternion and octonion representations define a twin-torus geometry in which resonant phase coherence between the two foliated surfaces is governed by an SU(2) double-cover symmetry, with the Casimir operator fixing the invariant coherence energy across the coupling.</p>
+    <p>Extending the construction to SO(4) via the Hopf fibration yields an aperiodic-orbit regime in which the coupling remains phase-stable without periodic closure — the geometric signature of the Macachor Absolute: the invariant energy floor at which coherence is preserved regardless of foliation phase. Candidate applications include plasma confinement and space-weather modeling, where non-local phase coupling between toroidal plasma structures is empirically observed but not formally described.</p>
+  </section>
+
+  <section id="lineage">
+    <span class="eyebrow">02 · The lineage</span>
+    <h2>DOI chain</h2>
+    <ul class="chain">
+      <li>
+        <div class="step">v0.1</div>
+        <div>
+          <div class="t">MCE Platform and Licensing Proposal</div>
+          <div class="d">10.5281/zenodo.22698899</div>
+          <div class="m">Revenue-share participation framework · previous version in the chain</div>
+        </div>
+      </li>
+      <li>
+        <div class="step">v0.2</div>
+        <div>
+          <div class="t">Canonical Mathematical Core</div>
+          <div class="d">10.5281/zenodo.22698941</div>
+          <div class="m">Linked forward from the licensing proposal</div>
+        </div>
+      </li>
+      <li>
+        <div class="step">v1.0</div>
+        <div>
+          <div class="t">Twin Clifford Tori — Scalar Resonance Harmonic Coupling <span class="live">Latest</span></div>
+          <div class="d">10.5281/zenodo.22854537</div>
+          <div class="m">Published 20 September 2026 · version v1 · open access</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="cite">
+    <span class="eyebrow">03 · Citation</span>
+    <h2>Cite this record</h2>
+    <div class="cite">
+<pre><span class="k">@dataset</span>{<span class="v">macachor_2026_twincliffordtori</span>,
+  <span class="k">author</span>    = {Macachor, Christopher},
+  <span class="k">orcid</span>     = {0009-0008-0100-2856},
+  <span class="k">title</span>     = {Twin Clifford Tori -- Scalar Resonance Harmonic Coupling},
+  <span class="k">year</span>      = {2026},
+  <span class="k">month</span>     = sep,
+  <span class="k">publisher</span> = {Zenodo},
+  <span class="k">version</span>   = {v1},
+  <span class="k">doi</span>       = {10.5281/zenodo.22854537},
+  <span class="k">url</span>       = {https://doi.org/10.5281/zenodo.22854537}
+}</pre>
+    </div>
+    <p class="cite-note">APA — Macachor, C. (2026). <em>Twin Clifford Tori — Scalar Resonance Harmonic Coupling</em>. Zenodo.</p>
+    <p class="cite-note">Record resolves at <span class="plain-url">https://doi.org/10.5281/zenodo.22854537</span></p>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="quote">"A system of beliefs is only as strong as its willingness to be found."</p>
+    <p><span class="orcid">ORCID 0009-0008-0100-2856</span> · Macachor Absolute Scalar Research · Kearny Mesa, San Diego, CA</p>
+    <p style="margin-top:6px;" class="plain-url">scalar.macachor.org</p>
+  </div>
+</footer>
+
+</body>
+</html>
